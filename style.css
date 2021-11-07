@@ -64,7 +64,7 @@ responsive
       padding: 0.8rem;
       border: 1px solid #333333;
       cursor: pointer;
-      background-color: #edf9f5;
+      background-color: transparent;
   }
   .hidden {
       display: none !important;

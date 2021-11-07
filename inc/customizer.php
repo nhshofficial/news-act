@@ -60,7 +60,27 @@ Kirki::add_field( 'newsact_theme_config', [
 	],
 ] );
 
+// Header type selection
+Kirki::add_field( 'newsact_theme_config', [
+	'type'        => 'color',
+	'settings'    => 'header_bg_color',
+	'label'       => esc_html__( 'Select header background color', 'newsact' ),
+	'section'     => 'header_type',
+	'default'     => '#ffffff',
+	'choices'     => [
+		'alpha' => true,
+	],
+	'transport' => 'postMessage',
+	'js_vars'   => [
+		[
+			'element'  => '.main-header-bg',
+			'function' => 'css',
+			'property' => 'background-color',
+		],
+	]
+] );
 
+// ============= Menu Section =============== //
 // header divider one
 Kirki::add_field( 'newsact_theme_config', [
 	'type'        => 'custom',

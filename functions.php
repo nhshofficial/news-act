@@ -220,3 +220,22 @@ if ( class_exists( 'WooCommerce' ) ) {
 	require get_template_directory() . '/inc/woocommerce.php';
 }
 
+// Custom CSS
+function newsact_custom_css() { ?>
+	<style>
+		<?php if( get_theme_mod( 'select_header_type', 'default' ) == 'stacked' ) : ?>
+
+			/* XS, SM */
+			@media (max-width: 991px) {
+				.main-header-bg {
+					padding: 0px 10px;
+				}
+			}
+			.main-header-bg {
+				background-color: <?php echo esc_attr( get_theme_mod( 'header_bg_color', '#ffffff' ) ); ?>
+			}
+		<?php endif; ?>
+	</style>
+<?php 
+}
+add_action( 'wp_head', 'newsact_custom_css' );
