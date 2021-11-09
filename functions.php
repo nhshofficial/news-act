@@ -36,11 +36,11 @@ if ( ! function_exists( 'newsact_setup' ) ) :
 		add_theme_support( 'post-thumbnails' );
 		add_image_size( 'newsact-blog', 750, 450, true );
 		add_image_size( 'newsact-logo', 300, 90, true );
+		add_image_size( 'newsact-section-2-left', 210, 150, true );
 
 		// This theme uses wp_nav_menu() in one location.
 		register_nav_menus( array(
 		'primary_menu' => esc_html__( 'Primary Menu', 'newsact' ),
-        'right_side_menu' => esc_html__( 'Right Side Menu', 'newsact' ),
 	) );
 
 		/*
@@ -239,3 +239,59 @@ function newsact_custom_css() { ?>
 <?php 
 }
 add_action( 'wp_head', 'newsact_custom_css' );
+
+// breaking news js
+if( get_theme_mod( 'enable_breaking_news', true ) == true ) :
+
+	function breaking_news_js() {
+
+		// splide css
+		wp_enqueue_style( 'splide-css', get_template_directory_uri().'/assets/css/splide.css', array(), '3.2.5', 'all' );
+		// splide.js
+		wp_enqueue_script( 'splide-js', get_template_directory_uri() . '/assets/js/splide.js', array(), '3.2.5', true );
+
+		// Custom values
+		$autoplay = get_theme_mod( 'breaking_post_autoplay', true );
+		$arrow = get_theme_mod( 'breaking_arrow', false );
+		$postsPerPage = get_theme_mod( 'breaking_post_per_page', true );
+
+		// custom js config
+		wp_add_inline_script( 'splide-js', '
+		
+		new Splide( "#breaking-news", {
+            type : "loop",
+            perPage : '.$postsPerPage.',
+            perMove : 2,
+            gap : 15,
+            pagination : false,
+            arrows : '.$arrow.',
+            autoplay : '.$autoplay.',
+            interval : 3000,
+            pauseOnHover : true,
+            breakpoints: {
+                    991: {
+                        perPage: 3,
+                    },
+                    640 : {
+                        perPage : 2,
+                    },
+            }
+        } ).mount();
+
+		');
+
+	}
+	add_action( 'wp_enqueue_scripts', 'breaking_news_js' );
+
+endif;
+
+/**
+ * Elementor additions.
+ */
+if ( did_action( 'elementor/loaded' ) ) {
+	// Init elementor
+	require get_template_directory() . '/inc/elementor/init.php';
+	require get_template_directory() . '/inc/elementor/sections-fun.php';
+	// require get_template_directory() . '/inc/elementor/register.php';
+
+}
